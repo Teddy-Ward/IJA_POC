@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IJA Chatbot Prototype - External Config</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+            margin: 0;
+            padding: 20px;
+            background-color: #e9ebee; /* Light grey background for the page */
+            color: #1c1e21; /* Standard dark grey text */
+            display: flex;
+            justify-content: center;
+            align-items: flex-start; /* Align items to the top for better layout on load */
+            min-height: 100vh;
+        }
+        .main-container {
+            display: flex;
+            flex-wrap: wrap; /* Allow wrapping for responsiveness */
+            gap: 20px;
+            width: 100%;
+            max-width: 900px; /* Max width of the overall layout */
+        }
+        .form-container {
+            background-color: #ffffff; /* White background for the form area */
+            padding: 25px;
+            border-radius: 8px; /* Rounded corners */
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1), 0 8px 16px rgba(0,0,0,0.1); /* Subtle shadow */
+            flex: 2; /* Form container takes up more space relative to chatbot */
+            min-width: 300px; /* Minimum width for the form container */
+        }
+        h2 {
+            color: #1877f2; /* A modern blue, similar to Facebook's */
+            text-align: center;
+            margin-top: 0;
+            margin-bottom: 25px;
+            font-size: 24px;
+        }
+        label {
+            display: block;
+            margin-bottom: 6px;
+            font-weight: 600; /* Bolder labels for better readability */
+            color: #606770; /* Medium grey for labels */
+            font-size: 14px;
+        }
+        input[type="text"], input[type="number"], input[type="email"] {
+            width: 100%; /* Full width of their container */
+            padding: 12px;
+            margin-bottom: 18px;
+            border: 1px solid #dddfe2; /* Light grey border */
+            border-radius: 6px; /* Slightly rounded corners for inputs */
+            box-sizing: border-box; /* Includes padding and border in the element's total width and height */
+            font-size: 16px;
+            color: #1c1e21;
+        }
+        input:focus {
+            border-color: #1877f2; /* Blue border on focus */
+            box-shadow: 0 0 0 2px rgba(24,119,242,0.2); /* Subtle glow on focus */
+            outline: none; /* Remove default browser outline */
+        }
+
+        /* Chatbot Styles - Applied to dynamically created elements by ija-chatbot-logic.js */
+        #ija-chatbot-placeholder { /* The div where the chatbot will be injected */
+            flex: 1; /* Chatbot takes less space relative to form */
+            min-width: 280px; /* Minimum width for the chatbot container */
+        }
+        #ija-chatbot-container { /* This ID is created by JS */
+            background-color: #ffffff;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1), 0 8px 16px rgba(0,0,0,0.1);
+            display: flex;
+            flex-direction: column;
+            height: 450px; /* Fixed height for the chatbot */
+            max-height: 80vh; /* Max height relative to viewport */
+            overflow: hidden; /* To keep rounded corners with scrolling content */
+        }
+        .ija-chatbot-header { /* This class is applied by JS */
+            background-color: #1877f2; /* Blue header */
+            color: white;
+            padding: 12px 15px;
+            font-weight: bold;
+            font-size: 16px;
+            border-top-left-radius: 8px; /* Match container rounding */
+            border-top-right-radius: 8px; /* Match container rounding */
+            text-align: center;
+        }
+        #ija-chat-messages { /* This ID is created by JS */
+            flex-grow: 1; /* Takes up available space */
+            padding: 15px;
+            overflow-y: auto; /* Enable scrolling for messages */
+            background-color: #f0f2f5; /* Light grey background for message area */
+            display: flex;
+            flex-direction: column; /* Stack messages vertically */
+        }
+        .ija-message { /* This class is applied by JS */
+            padding: 10px 15px;
+            border-radius: 18px; /* Rounded message bubbles */
+            margin-bottom: 10px;
+            max-width: 85%; /* Max width of message bubbles */
+            line-height: 1.4;
+            font-size: 14px;
+            word-wrap: break-word; /* Prevent long words from overflowing */
+        }
+        .ija-message.bot { /* This class is applied by JS */
+            background-color: #e7f3ff; /* Light blue for bot messages */
+            color: #052c65; /* Darker blue text for contrast */
+            align-self: flex-start; /* Bot messages on the left */
+            border-bottom-left-radius: 4px; /* To give a "speech bubble" tail effect */
+        }
+         .ija-message.bot strong {
+            color: #004a75; /* Slightly darker blue for emphasis */
+        }
+         .ija-message.bot small { /* For the "Rule Info" text */
+            display: block;
+            margin-top: 5px;
+            color: #4b6777; /* Softer color for less prominent text */
+            font-size: 0.85em;
+         }
+        .ija-chat-input-area { /* This class is applied by JS */
+            border-top: 1px solid #dddfe2; /* Separator line */
+            padding: 10px;
+            background-color: #ffffff; /* White background for input area */
+        }
+        .ija-chat-input-area input { /* This element is created by JS */
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccd0d5;
+            border-radius: 18px; /* Rounded input field */
+            box-sizing: border-box;
+            font-size: 14px;
+        }
+        .ija-chat-input-area input:focus {
+             border-color: #1877f2;
+             box-shadow: 0 0 0 2px rgba(24,119,242,0.2);
+             outline: none;
+        }
+        .initial-bot-message { /* This class is applied by JS for the first message */
+            font-style: italic;
+            text-align: center;
+            color: #606770; /* Medium grey */
+            margin-top: auto; /* Push to bottom if it's the only message */
+            margin-bottom: auto; /* Center vertically if it's the only message */
+            padding: 20px; /* Give it some space */
+        }
+
+        /* Responsive adjustments for smaller screens */
+        @media (max-width: 768px) {
+            .main-container {
+                flex-direction: column; /* Stack form and chatbot vertically */
+                align-items: center; /* Center items when stacked */
+            }
+            .form-container, #ija-chatbot-placeholder {
+                flex-basis: 100%; /* Each takes full width when stacked */
+                max-width: 500px; /* Limit width on smaller screens for better readability */
+            }
+            #ija-chatbot-container {
+                height: 380px; /* Adjust height for smaller screens */
+                margin-top: 20px; /* Add space above chatbot when stacked */
+            }
+        }
+    </style>
+</head>
+<body>
+
+<div class="main-container">
+    <div class="form-container">
+        <h2>Mortgage Application Snippet</h2>
+        <form id="applicationForm">
+            <div>
+                <label for="fullName">Full Name:</label>
+                <input type="text" id="fullName" name="fullName" data-help-context="fullNameHelp" placeholder="e.g., Jane Doe">
+            </div>
+            <div>
+                <label for="email">Email Address:</label>
+                <input type="email" id="email" name="email" data-help-context="emailHelp" placeholder="e.g., jane.doe@example.com">
+            </div>
+            <div>
+                <label for="annualIncome">Annual Income (£):</label>
+                <input type="number" id="annualIncome" name="annualIncome" data-help-context="annualIncomeHelp" placeholder="e.g., 50000">
+            </div>
+            <div>
+                <label for="loanAmount">Desired Loan Amount (£):</label>
+                <input type="number" id="loanAmount" name="loanAmount" data-help-context="loanAmountHelp" placeholder="e.g., 250000">
+            </div>
+            <div>
+                <label for="depositAmount">Deposit Amount (£):</label>
+                <input type="number" id="depositAmount" name="depositAmount" data-help-context="depositAmountHelp" placeholder="e.g., 25000">
+            </div>
+        </form>
+    </div>
+
+    <div id="ija-chatbot-placeholder"></div>
+
+</div>
+
+<script src="journey-config.js"></script>
+
+<script src="ija-chatbot-logic.js" defer></script>
+
+</body>
+</html>
