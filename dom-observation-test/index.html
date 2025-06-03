@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>IJA Client Engine Test (Self-Contained)</title>
+    <style>
+      body {
+        font-family: sans-serif;
+        margin: 20px;
+        line-height: 1.6;
+      }
+      .container {
+        border: 1px solid #ccc;
+        padding: 20px;
+        margin-bottom: 20px;
+      }
+      label {
+        display: block;
+        margin-top: 10px;
+      }
+      input,
+      button,
+      select,
+      textarea {
+        margin-top: 5px;
+        padding: 8px;
+        font-size: 1em;
+      }
+      .dynamic-content {
+        border: 1px dashed blue;
+        padding: 10px;
+        margin-top: 10px;
+        min-height: 50px;
+      }
+      .highlighted {
+        border: 2px solid orange !important;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>IJA Client Engine Test Page</h1>
+    <p>
+      Interact with the elements below. All observation logging is now handled
+      by the IJAClientEngine (which contains DomObservationModule) and will
+      appear in the browser's developer console.
+    </p>
+
+    <div class="container" id="testFormContainer">
+      <h2>Test Form</h2>
+      <label for="nameInput">Name:</label>
+      <input
+        type="text"
+        id="nameInput"
+        data-help-context="nameField"
+        placeholder="Focus or type here"
+      />
+
+      <label for="emailInput">Email:</label>
+      <input
+        type="email"
+        id="emailInput"
+        data-help-context="emailField"
+        placeholder="Click or type here"
+      />
+
+      <label for="options">Options:</label>
+      <select id="options" data-help-context="optionsDropdown">
+        <option value="1">Option 1</option>
+        <option value="2">Option 2</option>
+      </select>
+
+      <button id="testButton" data-help-context="submitAction">Click Me</button>
+      <button id="changeAttributeButton">Change Name Input Attribute</button>
+      <button id="addRemoveElementButton">Add/Remove Element Below</button>
+    </div>
+
+    <div class="dynamic-content" id="dynamicArea">
+      <p>This area will have elements added/removed.</p>
+    </div>
+
+    <script src="ija-client-engine.js" defer></script>
+  </body>
+</html>

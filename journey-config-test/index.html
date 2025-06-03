@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>My Demo Site (Broker & End User Views)</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 20px;
+        padding-bottom: 150px;
+        line-height: 1.6;
+        background-color: #f0f2f5;
+      }
+      .top-controls {
+        background-color: #fff;
+        padding: 15px;
+        border-radius: 8px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        margin-bottom: 20px;
+        display: flex;
+        gap: 10px;
+        justify-content: center;
+        flex-wrap: wrap;
+      }
+      .top-controls button {
+        padding: 10px 15px;
+        border: 1px solid #007bff;
+        border-radius: 6px;
+        background-color: #007bff;
+        color: white;
+        cursor: pointer;
+        font-size: 14px;
+      }
+      .top-controls button.active {
+        background-color: #0056b3;
+        font-weight: bold;
+      }
+      .top-controls button:hover {
+        background-color: #0056b3;
+      }
+      .container {
+        max-width: 800px;
+        margin: 0 auto;
+        padding: 15px;
+        background-color: #f9f9f9;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+      }
+      .journey-view {
+        display: none;
+      }
+      .journey-view.active {
+        display: block;
+      }
+      .form-section,
+      .info-section {
+        border: 1px solid #eee;
+        padding: 20px;
+        margin-bottom: 25px;
+        border-radius: 5px;
+        background-color: #fff;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+      }
+      h1,
+      h2,
+      h3 {
+        color: #333;
+      }
+      h1 {
+        text-align: center;
+        margin-bottom: 30px;
+      }
+      h2 {
+        margin-top: 0;
+        border-bottom: 1px solid #eee;
+        padding-bottom: 10px;
+        font-size: 1.5em;
+      }
+      h3 {
+        font-size: 1.2em;
+        color: #007bff;
+      }
+      label {
+        display: block;
+        margin-top: 15px;
+        margin-bottom: 5px;
+        font-weight: bold;
+        font-size: 0.9em;
+        color: #555;
+      }
+      input[type="text"],
+      input[type="password"],
+      input[type="number"],
+      input[type="email"] {
+        padding: 10px;
+        margin-top: 5px;
+        margin-bottom: 10px;
+        width: calc(100% - 22px);
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        box-sizing: border-box;
+      }
+      input:focus {
+        border-color: #007bff;
+        box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+      }
+      button.action-button {
+        padding: 10px 15px;
+        margin-top: 10px;
+        background-color: #28a745;
+        color: white;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+      }
+      button.action-button:hover {
+        background-color: #218838;
+      }
+      .policy-link {
+        color: #007bff;
+        cursor: pointer;
+        text-decoration: underline;
+      }
+      .highlight-section {
+        border: 2px dashed #28a745;
+        padding: 20px;
+        margin-top: 30px;
+      }
+      .info-notice {
+        background-color: #fff3cd;
+        border: 1px solid #ffeeba;
+        color: #856404;
+        padding: 10px;
+        border-radius: 4px;
+        margin-top: 15px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="top-controls">
+      <h3>Simulate View:</h3>
+      <button id="viewEndUserBtn" data-view="endUserView">
+        End User View (LenderX FTB)
+      </button>
+      <button id="viewBrokerBtn" data-view="brokerView">
+        Broker View (Policy Lookup)
+      </button>
+    </div>
+
+    <div class="container">
+      <h1 id="pageTitle">Welcome! Select a view above.</h1>
+
+      <div id="endUserView" class="journey-view">
+        <h2>LenderX - First Time Buyer Application</h2>
+        <div class="form-section">
+          <h3>Your Details</h3>
+          <label for="eu_fullName">Full Name:</label>
+          <input
+            type="text"
+            id="eu_fullName"
+            data-help-context="endUser_fullName"
+            placeholder="e.g., Alex Smith"
+          />
+
+          <label for="eu_email">Email Address:</label>
+          <input
+            type="email"
+            id="eu_email"
+            data-help-context="endUser_email"
+            placeholder="alex.smith@example.com"
+          />
+        </div>
+        <div class="form-section highlight-section">
+          <h3>Financial Information</h3>
+          <label for="eu_annualIncome">Annual Income (£):</label>
+          <input
+            type="number"
+            id="eu_annualIncome"
+            data-help-context="endUser_annualIncome"
+            placeholder="e.g., 35000"
+          />
+
+          <label for="eu_depositAmount">Deposit Amount (£):</label>
+          <input
+            type="number"
+            id="eu_depositAmount"
+            data-help-context="endUser_depositAmount"
+            placeholder="e.g., 15000"
+          />
+          <button class="action-button">Check Affordability</button>
+        </div>
+      </div>
+
+      <div id="brokerView" class="journey-view">
+        <h2>Broker Portal - Lender Policy Lookup</h2>
+        <div class="form-section">
+          <h3>Search Lender Criteria</h3>
+          <label for="br_lenderName">Select Lender:</label>
+          <select id="br_lenderName" data-help-context="broker_selectLender">
+            <option value="LenderX">LenderX</option>
+            <option value="LenderY">LenderY</option>
+            <option value="LenderZ">LenderZ</option>
+          </select>
+
+          <label for="br_policyKeyword">Policy Keyword/Topic:</label>
+          <input
+            type="text"
+            id="br_policyKeyword"
+            data-help-context="broker_policyKeyword"
+            placeholder="e.g., Gifted Deposit, LTV Self-Employed"
+          />
+
+          <button class="action-button">Search Policy</button>
+        </div>
+        <div class="info-section highlight-section">
+          <h3>Quick Links</h3>
+          <p>
+            <span
+              class="policy-link"
+              data-help-context="broker_LenderX_FTBCriteria"
+              >View LenderX FTB Criteria Summary</span
+            >
+          </p>
+          <p>
+            <span
+              class="policy-link"
+              data-help-context="broker_LenderY_RemortgageRates"
+              >Check LenderY Remortgage Rates</span
+            >
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <div id="intelliguide-widget-placeholder"></div>
+    <!-- Note: The embed script itself will create its own widget container. 
+         This placeholder is more for conceptual clarity or if the embed script needed an anchor.
+         The current embed script appends directly to body. Let's assume it can find its place.
+    -->
+
+    <script>
+      const endUserView = document.getElementById("endUserView");
+      const brokerView = document.getElementById("brokerView");
+      const viewEndUserBtn = document.getElementById("viewEndUserBtn");
+      const viewBrokerBtn = document.getElementById("viewBrokerBtn");
+      const pageTitle = document.getElementById("pageTitle");
+
+      // This API key would be unique to the website owner in a real SaaS
+      window.INTELLIGUIDE_API_KEY_FOR_DEMO = "SITE_OWNER_UNIQUE_API_KEY_123";
+
+      // window.ALL_JOURNEY_CONFIGS will be populated by multi-journey-configs.js
+
+      function setActiveView(viewId) {
+        let journeyKey = "";
+        if (viewId === "endUserView") {
+          pageTitle.textContent = `Simulating: End User Journey (LenderX FTB)`;
+          journeyKey = "ClientSite_LenderX_FTB";
+          endUserView.classList.add("active");
+          brokerView.classList.remove("active");
+          viewEndUserBtn.classList.add("active");
+          viewBrokerBtn.classList.remove("active");
+        } else if (viewId === "brokerView") {
+          pageTitle.textContent = `Simulating: Broker Portal Journey`;
+          journeyKey = "BrokerPortal_CaseView";
+          brokerView.classList.add("active");
+          endUserView.classList.remove("active");
+          viewBrokerBtn.classList.add("active");
+          viewEndUserBtn.classList.remove("active");
+        }
+
+        // Load the specific configuration for this journey for IntelliGuideAI
+        if (
+          window.ALL_JOURNEY_CONFIGS &&
+          window.ALL_JOURNEY_CONFIGS[journeyKey]
+        ) {
+          const selectedJourneyConfig = window.ALL_JOURNEY_CONFIGS[journeyKey];
+          if (
+            window.IntelliGuideAI &&
+            typeof window.IntelliGuideAI.init === "function"
+          ) {
+            console.log(
+              `[TargetSite] View changed. Initializing IntelliGuideAI for journey: ${journeyKey}`
+            );
+            window.IntelliGuideAI.init(
+              window.INTELLIGUIDE_API_KEY_FOR_DEMO,
+              selectedJourneyConfig
+            );
+          } else {
+            // Fallback if IntelliGuideAI.init is not ready yet (e.g. script still loading)
+            // This is less ideal as init should ideally be called once IntelliGuideAI is defined.
+            // The 'defer' attribute on intelliguide-embed.js should make it available.
+            console.warn(
+              "[TargetSite] IntelliGuideAI.init not found or not a function yet. Config might not apply immediately."
+            );
+            // Store it for the embed script to pick up if it initializes itself based on a global
+            window.EMBED_DEMO_CONFIG = selectedJourneyConfig;
+          }
+        } else {
+          console.error(
+            `[TargetSite] Config not found in ALL_JOURNEY_CONFIGS for journeyKey: ${journeyKey}`
+          );
+        }
+      }
+
+      viewEndUserBtn.addEventListener("click", () =>
+        setActiveView("endUserView")
+      );
+      viewBrokerBtn.addEventListener("click", () =>
+        setActiveView("brokerView")
+      );
+
+      // Initialize with a default view after DOM and multi-journey-configs.js are loaded
+      document.addEventListener("DOMContentLoaded", () => {
+        if (window.ALL_JOURNEY_CONFIGS) {
+          setActiveView("endUserView"); // Default to end user view
+        } else {
+          console.warn(
+            "multi-journey-configs.js not loaded yet or ALL_JOURNEY_CONFIGS not defined at DOMContentLoaded. Widget might not initialize correctly with journey-specific config."
+          );
+          // Attempt to init IntelliGuideAI with a very basic config if all else fails,
+          // so the widget at least appears (though it won't have journey context).
+          if (
+            window.IntelliGuideAI &&
+            typeof window.IntelliGuideAI.init === "function"
+          ) {
+            window.IntelliGuideAI.init(window.INTELLIGUIDE_API_KEY_FOR_DEMO, {
+              apiKey: window.INTELLIGUIDE_API_KEY_FOR_DEMO,
+              globalSettings: {
+                widgetHeaderText: "Assistant (Default)",
+                initialGreeting: "Select a view to get started.",
+              },
+            });
+          }
+        }
+      });
+    </script>
+
+    <!-- 
+        1. Load configurations for different journeys first.
+           This script should define 'window.ALL_JOURNEY_CONFIGS'.
+    -->
+    <script src="multi-journey-configs.js"></script>
+    <!-- 
+        2. Then load the IntelliGuide AI embed script.
+           It will be initialized by the inline script above after a view is selected,
+           or by its own auto-init logic if INTELLIGUIDE_API_KEY_FOR_DEMO is set.
+    -->
+    <script src="intelliguide-embed.js" defer></script>
+  </body>
+</html>
